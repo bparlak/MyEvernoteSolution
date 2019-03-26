@@ -49,9 +49,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusinessLayerResult.cs" />
+    <Compile Include="Results\BusinessLayerResult.cs" />
     <Compile Include="CategoryManager.cs" />
     <Compile Include="EvernoteUserManager.cs" />
+    <Compile Include="Abstract\ManagerBase.cs" />
     <Compile Include="NoteManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Test.cs" />
@@ -60,6 +61,10 @@
     <ProjectReference Include="..\MyEvernote.Common\MyEvernote.Common.csproj">
       <Project>{f370252a-9d02-4dbb-bfe1-7a012bb5c0f2}</Project>
       <Name>MyEvernote.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyEvernote.Core\MyEvernote.Core.csproj">
+      <Project>{7b12d41f-bc9a-4694-85b2-430e8c795390}</Project>
+      <Name>MyEvernote.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\MyEverNote.DataAccessLayer\MyEvernote.DataAccessLayer.csproj">
       <Project>{97951785-83a6-47ee-94c8-32f04ea61037}</Project>

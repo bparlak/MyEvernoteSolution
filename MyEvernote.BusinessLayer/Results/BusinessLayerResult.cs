@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyEvernote.BusinessLayer
+namespace MyEvernote.BusinessLayer.Results
 {
     //databasede olusabilecek hataları string listesine atarak dönmemizi sağlıyor.
     public class BusinessLayerResult<T> where T : class

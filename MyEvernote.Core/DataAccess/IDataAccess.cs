@@ -5,10 +5,10 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyEvernote.DataAccessLayer.Abstract
+namespace MyEvernote.Core.DataAccess
 {
     //refactoring için olusturuldu. Entityframework ile değilde Mysql ile calısmamız gerekirse faydalı olacak.
-    public interface IRepository<T>
+    public interface IDataAccess<T>
     {
         List<T> List();
         IQueryable<T> ListQueryable();

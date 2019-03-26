@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "About";
+}
+
+<!-- Page Content -->
+<div class="container">
+
+    <div class="row">
+        @*kategoriler*@
+        <div class="col-md-3">
+            @Html.Partial("_PartialCategories")
+        </div>
+
+        <div class="col-md-7 col-md-offset-1">
+            @*corousel*@
+            <div class="row">
+
+                <h2 class="text-center">lorem lorem  </h2>
+                <hr />
+                <img src="http://placehold.it/500x200" class="center-block img-rounded img-responsive img-thumbnail" alt="">
+                <hr />
+                <p>lorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem lorem</p>
+                <p>lorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem lorem</p>
+                <p>lorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem lorem</p>
+                <p>lorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem lorem</p>
+                <p>lorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem loremlorem lorem lorem lorem lorem lorem lorem</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section footer{
+    @Html.Partial("_PartialFooter")
+}

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MyEvernote.BusinessLayer;
+using MyEvernote.BusinessLayer.Results;
 using MyEvernote.Entities;
 
 namespace MyEvernote.Web.Controllers
@@ -46,11 +47,17 @@ namespace MyEvernote.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(EvernoteUser evernoteUser)
         {
+            ModelState.Remove("CreateOn");
+            ModelState.Remove("ModifiedOn");
+            ModelState.Remove("ModifiedUsername");
             if (ModelState.IsValid)
             {
-                //TODO: Düzeltilecek
-                //evernoteUserManager.Insert(evernoteUser);
-                evernoteUserManager.Save();
+                BusinessLayerResult<EvernoteUser> res = evernoteUserManager.Insert(evernoteUser);
+                if (res.Errors.Count > 0)
+                {
+                    res.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
+                    return View(evernoteUser);
+                }
                 return RedirectToAction("Index");
             }
 
@@ -76,13 +83,20 @@ namespace MyEvernote.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(EvernoteUser evernoteUser)
         {
+            ModelState.Remove("CreateOn");
+            ModelState.Remove("ModifiedOn");
+            ModelState.Remove("ModifiedUsername");
             if (ModelState.IsValid)
             {
-                //TODO düzenlenecek.
-                //evernoteUserManager.Update(evernoteUser);
-                evernoteUserManager.Save();
+                BusinessLayerResult<EvernoteUser> res = evernoteUserManager.Update(evernoteUser);
+                if (res.Errors.Count > 0)
+                {
+                    res.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
+                    return View(evernoteUser);
+                }
                 return RedirectToAction("Index");
             }
+
             return View(evernoteUser);
         }
 

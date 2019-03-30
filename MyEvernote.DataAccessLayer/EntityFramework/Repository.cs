@@ -46,6 +46,7 @@ namespace MyEvernote.DataAccessLayer.EntityFramework
             }
             return Save();
         }
+        //sadece modified ve username update edip save işlemi yapıyor.
         public int Update(T obj)
         {
             if (obj is MyEntityBase)

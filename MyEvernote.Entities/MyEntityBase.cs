@@ -11,16 +11,16 @@ namespace MyEvernote.Entities
 {
     public class MyEntityBase
     {
-        [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [DisplayName("Oluşturulduğu Tarih"),Required]
+        [DisplayName("Oluşturulduğu Tarih"), Required, ScaffoldColumn(false)]
         public DateTime CreatedOn { get; set; }
 
-        [DisplayName("Son Değiştirilme Tarihi"),Required]
+        [DisplayName("Son Değiştirilme Tarihi"), Required, ScaffoldColumn(false)]
         public DateTime ModifiedOn { get; set; }
 
-        [DisplayName("Oluşturan Kişi"),Required,StringLength(30)]
+        [DisplayName("Oluşturan Kişi"), Required, StringLength(30), ScaffoldColumn(false)]
         public string ModifiedUsername { get; set; }
     }
 }

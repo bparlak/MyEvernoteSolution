@@ -6,7 +6,7 @@ using System.Web;
 
 namespace MyEvernote.Web.Models
 {
-    public class CurrenSession
+    public class CurrentSession
     {
 
         public static EvernoteUser User

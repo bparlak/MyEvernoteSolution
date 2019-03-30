@@ -21,7 +21,7 @@ namespace MyEvernote.Web.Controllers
         public ActionResult Index()
         {
             var notes = noteManager.ListQueryable().Include("Category").Include("Owner").Where(
-                x => x.Owner.Id == CurrenSession.User.Id).OrderByDescending(
+                x => x.Owner.Id == CurrentSession.User.Id).OrderByDescending(
                 x=> x.ModifiedOn);
             return View(notes.ToList());
         }
@@ -29,7 +29,7 @@ namespace MyEvernote.Web.Controllers
         {
             LikedManager likedManager = new LikedManager();
             var notes = likedManager.ListQueryable().Include("LikedUser").Include("Note").Where(
-                x => x.LikedUser.Id == CurrenSession.User.Id).Select(
+                x => x.LikedUser.Id == CurrentSession.User.Id).Select(
                 x => x.Note).Include("Category").Include("Owner").OrderByDescending(
                 x => x.ModifiedOn);
             return View("Index", notes.ToList());
@@ -50,7 +50,7 @@ namespace MyEvernote.Web.Controllers
         
         public ActionResult Create()
         {
-            ViewBag.CategoryId = new SelectList(categoryManager.List(), "Id", "Title");
+            ViewBag.CategoryId = new SelectList(CacheHelper.GetCategoriesFromCache(), "Id", "Title");
             return View();
         }
         
@@ -63,12 +63,12 @@ namespace MyEvernote.Web.Controllers
             ModelState.Remove("ModifiedUsername");
             if (ModelState.IsValid)
             {
-                note.Owner = CurrenSession.User;
+                note.Owner = CurrentSession.User;
                 noteManager.Insert(note);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CategoryId = new SelectList(categoryManager.List(), "Id", "Title", note.CategoryId);
+            ViewBag.CategoryId = new SelectList(CacheHelper.GetCategoriesFromCache(), "Id", "Title", note.CategoryId);
             return View(note);
         }
 
@@ -84,7 +84,7 @@ namespace MyEvernote.Web.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CategoryId = new SelectList(categoryManager.List(), "Id", "Title", note.CategoryId);
+            ViewBag.CategoryId = new SelectList(CacheHelper.GetCategoriesFromCache(), "Id", "Title", note.CategoryId);
             return View(note);
         }
         
@@ -107,7 +107,7 @@ namespace MyEvernote.Web.Controllers
                 noteManager.Update(db_note);
                 return RedirectToAction("Index");
             }
-            ViewBag.CategoryId = new SelectList(categoryManager.List(), "Id", "Title", note.CategoryId);
+            ViewBag.CategoryId = new SelectList(CacheHelper.GetCategoriesFromCache(), "Id", "Title", note.CategoryId);
             return View(note);
         }
         

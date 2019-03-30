@@ -1,4 +1,5 @@
 ﻿@using MyEvernote.Entities
+@using MyEvernote.Web.Models
 <!DOCTYPE html>
 <html>
 
@@ -16,11 +17,7 @@
 </head>
 
 <body>
-    @{
-        EvernoteUser user = null;
-        user = Session["login"] as EvernoteUser;
 
-    }
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
@@ -37,7 +34,7 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    @if (user != null)
+                    @if (CurrentSession.User != null)
                     {
                         <li class="dropdown">
                             <a href="/Note/MyLikedNotes" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -54,7 +51,7 @@
                                 <li>
                                     @Bootstrap.LinkMenu("/Note/MyLikedNotes", "heart", "Beğendiklerim")
                                 </li>
-                                @if (user.IsAdmin)
+                                @if (CurrentSession.User.IsAdmin)
                                 {
                                     <li role="separator" class="divider"></li>
                                     <li>
@@ -87,7 +84,7 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    @if (user == null)
+                    @if (CurrentSession.User == null)
                     {
                     <li>
                         @Bootstrap.LinkMenu("/Home/Login", "log-in", "Giriş")
@@ -100,7 +97,7 @@
                     {
                         <li class="dropdown">
                             <a href="/Home/ShowProfile" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                <span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;@user.Username &nbsp;&nbsp;<span class="caret"></span>
+                                <span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;@CurrentSession.User.Username &nbsp;&nbsp;<span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <li>

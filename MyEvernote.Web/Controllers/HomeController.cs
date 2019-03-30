@@ -3,6 +3,7 @@ using MyEvernote.BusinessLayer.Results;
 using MyEvernote.Entities;
 using MyEvernote.Entities.Messages;
 using MyEvernote.Entities.ValueObjects;
+using MyEvernote.Web.Models;
 using MyEvernote.Web.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -35,8 +36,12 @@ namespace MyEvernote.Web.Controllers
             {
                 return HttpNotFound();
             }
-
-            return View("Index", cat.Notes.OrderByDescending(x => x.ModifiedOn).ToList());
+            List<Note> noteList = cat.Notes.OrderByDescending(x => x.ModifiedOn).ToList();
+            if (noteList == null)
+            {
+                noteList.Add(new Note());
+            }
+            return View("Index", noteList);
         }
         public ActionResult MostLiked()
         {
@@ -156,7 +161,7 @@ namespace MyEvernote.Web.Controllers
                     }
                     return View(model);
                 }
-                Session["login"] = res.Result;
+                CurrentSession.Set<EvernoteUser>("login", res.Result);
                 return RedirectToAction("Index", "Home");
             }
             return View(model);//Modelstate isvalid değilse kısıtlamalara uyulmamıstır. yani hata vardır
@@ -164,8 +169,7 @@ namespace MyEvernote.Web.Controllers
 
         public ActionResult ShowProfile()
         {
-            EvernoteUser currentUser = Session["login"] as EvernoteUser;
-            BusinessLayerResult<EvernoteUser> res = evernoteUserManager.GetUserById(currentUser.Id);
+            BusinessLayerResult<EvernoteUser> res = evernoteUserManager.GetUserById(CurrentSession.User.Id);
 
             if (res.Errors.Count > 0)
             {
@@ -198,8 +202,7 @@ namespace MyEvernote.Web.Controllers
 
         public ActionResult EditProfile()
         {
-            EvernoteUser currentUser = Session["login"] as EvernoteUser;
-            BusinessLayerResult<EvernoteUser> res = evernoteUserManager.GetUserById(currentUser.Id);
+            BusinessLayerResult<EvernoteUser> res = evernoteUserManager.GetUserById(CurrentSession.User.Id);
 
             if (res.Errors.Count > 0)
             {
@@ -243,8 +246,7 @@ namespace MyEvernote.Web.Controllers
                     };
                     return View("Error", errObj);
                 }
-
-                Session["login"] = res.Result;
+                CurrentSession.Set<EvernoteUser>("login", res.Result);
 
                 return RedirectToAction("ShowProfile");
             }
@@ -253,8 +255,7 @@ namespace MyEvernote.Web.Controllers
 
         public ActionResult DeleteProfile()
         {
-            EvernoteUser currentUser = Session["login"] as EvernoteUser;
-            BusinessLayerResult<EvernoteUser> res = evernoteUserManager.RemoveUserById(currentUser.Id);
+            BusinessLayerResult<EvernoteUser> res = evernoteUserManager.RemoveUserById(CurrentSession.User.Id);
 
             if (res.Errors.Count > 0)
             {

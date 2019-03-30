@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -13,13 +14,13 @@ namespace MyEvernote.Entities
         [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Required]
+        [DisplayName("Oluşturulduğu Tarih"),Required]
         public DateTime CreatedOn { get; set; }
 
-        [Required]
+        [DisplayName("Son Değiştirilme Tarihi"),Required]
         public DateTime ModifiedOn { get; set; }
 
-        [Required,StringLength(30)]
+        [DisplayName("Oluşturan Kişi"),Required,StringLength(30)]
         public string ModifiedUsername { get; set; }
     }
 }

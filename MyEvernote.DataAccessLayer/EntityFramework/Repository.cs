@@ -52,7 +52,7 @@ namespace MyEvernote.DataAccessLayer.EntityFramework
             {
                 MyEntityBase o = obj as MyEntityBase;
                 o.ModifiedOn = DateTime.Now;
-                o.ModifiedUsername = App.Common.GetCurrentUsername();// TODO: işlem yapan kullanıcıyı belirt
+                o.ModifiedUsername = App.Common.GetCurrentUsername();
             }
             return Save();
         }

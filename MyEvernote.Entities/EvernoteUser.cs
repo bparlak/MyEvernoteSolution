@@ -27,12 +27,17 @@ namespace MyEvernote.Entities
         [DisplayName("Şifre"), Required(ErrorMessage ="{0} alanı gereklidir."), StringLength(25, ErrorMessage = "{0} alanı max {1} karakter olmalıdır.")]
         public string Password { get; set; }
 
-        [DisplayName("Profil resmi"),StringLength(30, ErrorMessage = "{0} alan adı max {1} karakter olmalıdır.")]
+        [DisplayName("Profil resmi"),StringLength(30, ErrorMessage = "{0} alan adı max {1} karakter olmalıdır."),
+            ScaffoldColumn(false)]
         public string ProfileImageFilename { get; set; }
+
+        [DisplayName("Is Active")]
         public bool IsActive { get; set; }
+
+        [DisplayName("Is Admin")]
         public bool IsAdmin { get; set; }
 
-        [Required]
+        [Required, ScaffoldColumn(false)]
         public Guid ActivateGuid { get; set; }
 
         public virtual List<Note> Notes { get; set; }

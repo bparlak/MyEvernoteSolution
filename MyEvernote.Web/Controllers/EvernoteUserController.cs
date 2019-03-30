@@ -11,28 +11,32 @@ using MyEvernote.Entities;
 
 namespace MyEvernote.Web.Controllers
 {
-    public class CategoryController : Controller
+    public class EvernoteUserController : Controller
     {
-        CategoryManager categoryManager = new CategoryManager();
+        private EvernoteUserManager evernoteUserManager = new EvernoteUserManager();
+
+        // GET: EvernoteUser
         public ActionResult Index()
         {
-            return View(categoryManager.List());
+            return View(evernoteUserManager.List().ToList());
         }
 
+        // GET: EvernoteUser/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = categoryManager.Find(x=> x.Id==id.Value);
-            if (category == null)
+            EvernoteUser evernoteUser = evernoteUserManager.Find(x => x.Id == id.Value);
+            if (evernoteUser == null)
             {
                 return HttpNotFound();
             }
-            return View(category);
+            return View(evernoteUser);
         }
 
+        // GET: EvernoteUser/Create
         public ActionResult Create()
         {
             return View();
@@ -40,74 +44,72 @@ namespace MyEvernote.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Category category)
+        public ActionResult Create(EvernoteUser evernoteUser)
         {
-            ModelState.Remove("CreateOn");
-            ModelState.Remove("ModifiedOn");
-            ModelState.Remove("ModifiedUsername");
             if (ModelState.IsValid)
             {
-                categoryManager.Insert(category);
+                //TODO: Düzeltilecek
+                //evernoteUserManager.Insert(evernoteUser);
+                evernoteUserManager.Save();
                 return RedirectToAction("Index");
             }
 
-            return View(category);
+            return View(evernoteUser);
         }
 
+        // GET: EvernoteUser/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = categoryManager.Find(x => x.Id == id.Value);
-            if (category == null)
+            EvernoteUser evernoteUser = evernoteUserManager.Find(x => x.Id == id.Value);
+            if (evernoteUser == null)
             {
                 return HttpNotFound();
             }
-            return View(category);
+            return View(evernoteUser);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Category category)
+        public ActionResult Edit(EvernoteUser evernoteUser)
         {
-            ModelState.Remove("CreateOn");
-            ModelState.Remove("ModifiedOn");
-            ModelState.Remove("ModifiedUsername");
             if (ModelState.IsValid)
             {
-                Category cat = categoryManager.Find(x => x.Id == category.Id);
-                cat.Title = category.Title;
-                cat.Description = category.Description;
-                categoryManager.Update(cat);
+                //TODO düzenlenecek.
+                //evernoteUserManager.Update(evernoteUser);
+                evernoteUserManager.Save();
                 return RedirectToAction("Index");
             }
-            return View(category);
+            return View(evernoteUser);
         }
 
+        // GET: EvernoteUser/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category category = categoryManager.Find(x => x.Id == id.Value);
-            if (category == null)
+            EvernoteUser evernoteUser = evernoteUserManager.Find(x => x.Id == id.Value);
+            if (evernoteUser == null)
             {
                 return HttpNotFound();
             }
-            return View(category);
+            return View(evernoteUser);
         }
+        
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Category category = categoryManager.Find(x => x.Id == id);
-            categoryManager.Delete(category);
+            EvernoteUser evernoteUser = evernoteUserManager.Find(x => x.Id == id);
+            evernoteUserManager.Delete(evernoteUser);
+            evernoteUserManager.Save();
             return RedirectToAction("Index");
         }
-        
     }
 }

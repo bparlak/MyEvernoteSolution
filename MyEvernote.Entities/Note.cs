@@ -17,7 +17,7 @@ namespace MyEvernote.Entities
 
         [DisplayName("İçerik"), Required, StringLength(2000)]
         public string Text { get; set; }
-        [DisplayName("Taslak mı?")]
+        [DisplayName("Taslak")]
         public bool IsDraft { get; set; }
         [DisplayName("Beğeni Sayısı")]
         public int LikeCount { get; set; }

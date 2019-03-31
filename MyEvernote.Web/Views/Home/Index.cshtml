@@ -1,4 +1,5 @@
 ﻿@using MyEvernote.Entities
+@using MyEvernote.Web
 @model  List<Note>
 @{
     ViewBag.Title = "Index";
@@ -12,7 +13,6 @@
         <div class="col-md-3">
             @Html.Partial("_PartialCategories")
         </div>
-
         <div class="col-md-9">
             @*corousel*@
             <div class="row carousel-holder">
@@ -46,11 +46,11 @@
 
             </div>
 
-            @*yazılar*@
+            @*notlar*@
             <div class="row">
                 @foreach (Note note in Model)
                 {
-                    <div class="col-sm-4 col-lg-4 col-md-4">
+                    <div class="col-sm-4 col-lg-4 col-md-4" data-note-id="@note.Id">
                         <div class="thumbnail">
                             <img src="http://placehold.it/320x150" alt="@note.Title">
                             <div class="caption">
@@ -59,7 +59,7 @@
                                     <span class="glyphicon glyphicon-time"></span> @note.ModifiedOn.ToString("dd.MM.yy HH:mm")
                                 </h6><br />
                                 <h4>
-                                    <a href="#">
+                                    <a href="#" data-toggle="modal" data-target="#modal_notedetail" data-note-id="@note.Id">
                                         @note.Title
                                     </a>
                                 </h4>
@@ -69,7 +69,12 @@
                                     <p>
                                         @(note.Text.Substring(0, 70) + "...")
                                     </p>
-                                    <p class="pull-right"><a href="#" class="btn btn-primary btn-sx">devamı <span class="glyphicon glyphicon-chevron-right"></span></a></p>
+                                    <p class="pull-right">
+                                        <a href="#" class="btn btn-primary btn-sx" data-toggle="modal" data-target="#modal_notedetail" data-note-id="@note.Id" >
+                                            devamı
+                                            <span class="glyphicon glyphicon-chevron-right"></span>
+                                        </a>
+                                    </p>
                                 }
                                 else
                                 {
@@ -84,11 +89,15 @@
                             </div>
                             <div class="ratings">
                                 <p class="pull-right">
-                                    <button class="btn btn-default btn-sm"><span class="glyphicon glyphicon-comment"></span> Yorumlar</button>
+                                    <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal_comment"
+                                            data-note-id="@note.Id">
+                                        <span class="glyphicon glyphicon-comment"></span> Yorumlar
+                                    </button>
                                 </p>
                                 <p>
-                                    <button class="btn btn-default btn-sm" type="button">
-                                        <span class="glyphicon glyphicon-star-empty"></span> @note.LikeCount
+                                    <button class="btn btn-default btn-sm" type="button" data-liked="false" data-note-id="@note.Id">
+                                        <span class="glyphicon glyphicon-star-empty like-star"></span> &nbsp;
+                                        <span class="like-count">@note.LikeCount</span>
                                     </button>
                                 </p>
                             </div>
@@ -108,3 +117,11 @@
 @section footer{
     @Html.Partial("_PartialFooter")
 }
+
+
+
+@Bootstrap.ModalPopup(id: "modal_comment", title: "Yorumlar")
+@Bootstrap.ModalPopup(id: "modal_notedetail", title: "Not Detayı")
+<script src="~/Scripts/Comment.js"></script>
+<script src="~/Scripts/Like.js"></script>
+<script src="~/Scripts/NoteDetail.js"></script>

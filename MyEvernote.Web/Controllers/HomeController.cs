@@ -3,6 +3,7 @@ using MyEvernote.BusinessLayer.Results;
 using MyEvernote.Entities;
 using MyEvernote.Entities.Messages;
 using MyEvernote.Entities.ValueObjects;
+using MyEvernote.Web.Filter;
 using MyEvernote.Web.Models;
 using MyEvernote.Web.ViewModels;
 using System;
@@ -14,16 +15,20 @@ using System.Web.Mvc;
 
 namespace MyEvernote.Web.Controllers
 {
+    [Exc]
     public class HomeController : Controller
     {
         private NoteManager noteManager = new NoteManager();
         private CategoryManager categoryManager = new CategoryManager();
         private EvernoteUserManager evernoteUserManager = new EvernoteUserManager();
         // GET: Home
+
         public ActionResult Index()
         {
+
             //List<Note> notes = nm.GetAllNoteQueryable().OrderByDescending(x => x.ModifiedOn).ToList();
-            return View(noteManager.ListQueryable().OrderByDescending(x => x.ModifiedOn).ToList());
+            List<Note> notes = noteManager.ListQueryable().Where(x => x.IsDraft == false).OrderByDescending(x => x.ModifiedOn).ToList();
+            return View(notes);
         }
         public ActionResult ByCategory(int? id)
         {
@@ -31,12 +36,7 @@ namespace MyEvernote.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Category cat = categoryManager.Find(x=> x.Id==id.Value);
-            if (cat == null)
-            {
-                return HttpNotFound();
-            }
-            List<Note> noteList = cat.Notes.OrderByDescending(x => x.ModifiedOn).ToList();
+            List<Note> noteList = noteManager.ListQueryable().Where(x => x.IsDraft == false && x.CategoryId == id).OrderByDescending(x => x.ModifiedOn).ToList();
             if (noteList == null)
             {
                 noteList.Add(new Note());
@@ -134,11 +134,11 @@ namespace MyEvernote.Web.Controllers
             }
             OkViewModel okObj = new OkViewModel()
             {
-                Title="Hesap Aktifleştirildi.",
-                RedirectingUrl="/Home/Login"
+                Title = "Hesap Aktifleştirildi.",
+                RedirectingUrl = "/Home/Login"
             };
             okObj.Items.Add("Hesabınız aktifleştirilmiştir.Artık not paylaşabilir ve  diğer kullanıcıların notlarını beğenip yorum yapabilirsiniz.");
-            return View("Ok",okObj);
+            return View("Ok", okObj);
         }
 
         public ActionResult Login()
@@ -166,7 +166,7 @@ namespace MyEvernote.Web.Controllers
             }
             return View(model);//Modelstate isvalid değilse kısıtlamalara uyulmamıstır. yani hata vardır
         }
-
+        [Auth]
         public ActionResult ShowProfile()
         {
             BusinessLayerResult<EvernoteUser> res = evernoteUserManager.GetUserById(CurrentSession.User.Id);
@@ -200,6 +200,7 @@ namespace MyEvernote.Web.Controllers
             return View("Error", model);
         }
 
+        [Auth]
         public ActionResult EditProfile()
         {
             BusinessLayerResult<EvernoteUser> res = evernoteUserManager.GetUserById(CurrentSession.User.Id);
@@ -216,8 +217,10 @@ namespace MyEvernote.Web.Controllers
 
             return View(res.Result);
         }
+
+        [Auth]
         [HttpPost]
-        public ActionResult EditProfile(EvernoteUser model,HttpPostedFileBase ProfileImage)
+        public ActionResult EditProfile(EvernoteUser model, HttpPostedFileBase ProfileImage)
         {
             ModelState.Remove("ModifiedUsername");
             if (ModelState.IsValid)
@@ -253,6 +256,7 @@ namespace MyEvernote.Web.Controllers
             return View(model);
         }
 
+        [Auth]
         public ActionResult DeleteProfile()
         {
             BusinessLayerResult<EvernoteUser> res = evernoteUserManager.RemoveUserById(CurrentSession.User.Id);
@@ -270,13 +274,23 @@ namespace MyEvernote.Web.Controllers
             Session.Clear();
             return RedirectToAction("Index");
         }
-
-
-
+        
         public ActionResult Logout()
         {
             Session.Clear();
             return RedirectToAction("Index");
         }
+
+        public ActionResult AccessDenied()
+        {
+            return View();
+        }
+
+
+        public ActionResult HassError()
+        {
+            return View();
+        }
+        
     }
 }

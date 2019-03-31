@@ -1,4 +1,5 @@
-﻿@model IEnumerable<MyEvernote.Entities.Note>
+﻿@using MyEvernote.Entities
+@model IEnumerable<Note>
 
 @{
     ViewBag.Title = "Index";
@@ -51,7 +52,10 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.LikeCount)
                     </td>
-                    <td>
+                    <td width="170px">
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modal_comment" data-note-id="@item.Id">
+                            <span class="glyphicon glyphicon-comment"></span>
+                        </button>
                         @Bootstrap.LinkButton("/Note/Edit/" + @item.Id, "warning", "btn-sm", "Düzenle", "edit", string.Empty)
                         @Bootstrap.LinkButton("/Note/Details/" + @item.Id, "info", "btn-sm", "Detaylar", "search", string.Empty)
                         @Bootstrap.LinkButton("/Note/Delete/" + @item.Id, "danger", "btn-sm", "Sil", "trash", string.Empty)
@@ -62,3 +66,7 @@
         </table>
     </div>
 </div>
+
+
+@Bootstrap.ModalPopup(id: "modal_comment", title: "Yorumlar")
+<script src="~/Scripts/Comment.js"></script>

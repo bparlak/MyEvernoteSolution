@@ -128,11 +128,14 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="App_Code\Bootstrap.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\Comment.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
+    <Content Include="Scripts\Like.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\NoteDetail.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -143,9 +146,13 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\EvernoteUserController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NoteController.cs" />
+    <Compile Include="Filter\Auth.cs" />
+    <Compile Include="Filter\AuthAdmin.cs" />
+    <Compile Include="Filter\Exc.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -190,6 +197,10 @@
     <Content Include="Views\Note\Details.cshtml" />
     <Content Include="Views\Note\Edit.cshtml" />
     <Content Include="Views\Note\Index.cshtml" />
+    <Content Include="Views\Shared\_PartialComments.cshtml" />
+    <Content Include="Views\Shared\_PartialNoteText.cshtml" />
+    <Content Include="Views\Home\AccessDenied.cshtml" />
+    <Content Include="Views\Home\HassError.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -199,6 +210,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Comment\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MyEvernote.BusinessLayer\MyEvernote.BusinessLayer.csproj">
